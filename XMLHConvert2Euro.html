@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="amount" type="number" min="1" placeholder="Enter amount">
+    <button type="button" onclick="loadDoc()">request</button>
+    <p id="demo"></p>
+    <script>
+        // ajax _ 12
+        let amount = document.getElementById('amount');
+
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                let sum = 0;
+                let shekelInput = amount.value;
+                if (this.readyState === 4 && this.status === 200) {
+                    const response = JSON.parse(this.responseText);
+                    const shekelRate = response.rates.ILS;
+                    console.log(shekelRate);
+                    sum = shekelRate * shekelInput;
+                    document.getElementById('demo').innerHTML = sum;
+                }
+            };
+            const apiKey = `28bc579e4fed04c3b51716050f2cc891`;
+            const url = `http://api.exchangeratesapi.io/v1/latest?access_key=${apiKey}`;
+            xhttp.open("GET", url);
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="amount" type="number" min="1" placeholder="Enter amount">
+    <button type="button" onclick="loadDoc()">request</button>
+    <p id="demo"></p>
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        // ajax _ 13
+        let amount = document.getElementById('amount');
+        const apiKey = `28bc579e4fed04c3b51716050f2cc891`;
+
+        function loadDoc() {
+            const url = `http://api.exchangeratesapi.io/v1/latest?access_key=${apiKey}`;
+            axios.get(url)
+                .then(function(response) {
+                    console.log(response);
+                    const shekelInput = amount.value;
+                    let sum = 0;
+                    if (response.status === 200) {
+                        console.log(response.data);
+                        const shekelRate = response.data.rates.ILS;
+                        console.log(shekelRate);
+                        const sum = shekelRate * shekelInput;
+                        console.log(shekelInput);
+                        console.log(sum);
+                        document.getElementById('demo').innerHTML = sum;
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+        }
+    </script>
+</body>
+
+</html>
